@@ -1,16 +1,16 @@
-import { BrowserRouter as Router } from 'react-router-dom'
-import './App.css'
-import AppRoute from './routes/AppRoute'
-import Header from './components/layout/Header'
-import Footer from './components/layout/Footer'
+import { BrowserRouter as Router } from "react-router-dom";
+import "./App.css";
+import AppRoute from "./routes/AppRoute";
+import Header from "./components/layout/Header";
+import Footer from "./components/layout/Footer";
 
 function App() {
-
   return (
     <Router>
       <div>
         {/** <Header /> */}
-<Header />
+        <Header />
+
         <main>
           <AppRoute />
         </main>
@@ -19,7 +19,7 @@ function App() {
         <Footer />
       </div>
     </Router>
-  )
+  );
 }
 
-export default App
+export default App;

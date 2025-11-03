@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import logo from "../../assets/lochouse-logo.svg";
+import { Link } from "react-router-dom";
 import {
   FaHome,
   FaSearch,
@@ -32,13 +33,13 @@ function Header() {
 
           {/* Navigation Desktop */}
           <nav className="hidden md:flex items-center space-x-6">
-            <a
-              href="/"
+            <Link
+              to="/"
               className="flex items-center space-x-2 text-gray-700 hover:text-blue-600 transition"
             >
               <FaHome size={18} />
               <span>Accueil</span>
-            </a>
+            </Link>
             <a
               href="/recherche"
               className="flex items-center space-x-2 text-gray-700 hover:text-blue-600 transition"
@@ -64,20 +65,20 @@ function Header() {
 
           {/* Actions */}
           <div className="hidden md:flex items-center space-x-3">
-            <a
-              href="/connexion"
+            <Link
+              to="/login"
               className="flex items-center space-x-2 px-4 py-2 text-blue-600 border border-blue-600 rounded-lg hover:bg-blue-50 transition"
             >
               <FaSignInAlt size={18} />
               <span>Connexion</span>
-            </a>
-            <a
-              href="/inscription"
+            </Link>
+            <Link
+              to="/signin"
               className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
             >
               <FaUserPlus size={18} />
               <span>Inscription</span>
-            </a>
+            </Link>
           </div>
 
           {/* Menu Mobile Button */}
