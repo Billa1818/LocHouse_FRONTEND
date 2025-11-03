@@ -1,94 +1,48 @@
-import React, { useState, useCallback, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import {
-  FaMapMarkerAlt,
-  FaHome,
-  FaCalendarAlt,
-  FaMoneyBillWave,
-  FaBed,
-  FaSlidersH,
-  FaSearch,
-  FaCrosshairs,
-  FaTimes,
-  FaWifi,
-  FaSnowflake,
-  FaSwimmer,
-  FaCar,
-  FaTint,
-  FaBolt,
-  FaShieldAlt,
-  FaUtensils,
-  FaTv,
-  FaTree,
-  FaDumbbell,
-  FaCouch,
-  FaStar,
-  FaArrowLeft,
+  FaMapMarkerAlt, FaHome, FaCalendarAlt, FaMoneyBillWave, FaBed,
+  FaSlidersH, FaSearch, FaCrosshairs, FaTimes, FaStar, FaArrowLeft,
+  FaWifi, FaSnowflake, FaSwimmer, FaCar, FaTint, FaBolt, FaShieldAlt,
+  FaUtensils, FaTv, FaTree, FaDumbbell, FaCouch,
 } from "react-icons/fa";
 import heroBg from "../assets/home/heroSection.jpg";
 
-// === CONFIG DES INPUTS ===
+import { useForm } from "../hooks/useForm";
+import { useGeolocation } from "../hooks/useGeolocation";
+import { useEquipmentsModal } from "../hooks/useEquipmentsModal";
+
+// ================== TOUTES LES DONNÉES ICI ==================
 const INPUT_CONFIG = [
-  {
-    name: "location",
-    placeholder: "Ville, quartier...",
-    icon: FaMapMarkerAlt,
-    type: "text",
-    hasDetect: true,
-  },
-  {
-    name: "type",
-    placeholder: "Type de location",
-    icon: FaHome,
-    type: "select",
-    options: [
+  { name: "location", placeholder: "Ville, quartier...", icon: FaMapMarkerAlt, type: "text", hasDetect: true },
+  { name: "type", placeholder: "Type de location", icon: FaHome, type: "select", options: [
       { value: "", label: "Type de location" },
       { value: "residentiel", label: "Résidentiel" },
       { value: "touristique", label: "Touristique" },
-    ],
-  },
-  {
-    name: "duration",
-    placeholder: "Durée du séjour",
-    icon: FaCalendarAlt,
-    type: "select",
-    options: [
+    ]},
+  { name: "duration", placeholder: "Durée du séjour", icon: FaCalendarAlt, type: "select", options: [
       { value: "", label: "Durée du séjour" },
       { value: "court", label: "Court séjour (- 1 mois)" },
       { value: "moyen", label: "Moyen séjour (1-6 mois)" },
       { value: "long", label: "Long séjour (+ 6 mois)" },
-    ],
-  },
-  {
-    name: "budget",
-    placeholder: "Budget",
-    icon: FaMoneyBillWave,
-    type: "select",
-    options: [
+    ]},
+  { name: "budget", placeholder: "Budget", icon: FaMoneyBillWave, type: "select", options: [
       { value: "", label: "Budget" },
       { value: "0-50000", label: "Moins de 50 000 FCFA" },
       { value: "50000-100000", label: "50 000 - 100 000 FCFA" },
       { value: "100000-200000", label: "100 000 - 200 000 FCFA" },
       { value: "200000-500000", label: "200 000 - 500 000 FCFA" },
       { value: "500000+", label: "Plus de 500 000 FCFA" },
-    ],
-  },
-  {
-    name: "bedrooms",
-    placeholder: "Nombre de chambres",
-    icon: FaBed,
-    type: "select",
-    options: [
+    ]},
+  { name: "bedrooms", placeholder: "Nombre de chambres", icon: FaBed, type: "select", options: [
       { value: "", label: "Nombre de chambres" },
       { value: "1", label: "1 chambre" },
       { value: "2", label: "2 chambres" },
       { value: "3", label: "3 chambres" },
       { value: "4", label: "4 chambres" },
       { value: "5+", label: "5+ chambres" },
-    ],
-  },
+    ]},
 ];
 
-// === TOUS LES ÉQUIPEMENTS ===
 const EQUIPMENTS = [
   { id: "wifi", label: "WiFi", icon: FaWifi },
   { id: "clim", label: "Climatisation", icon: FaSnowflake },
@@ -104,9 +58,8 @@ const EQUIPMENTS = [
   { id: "meuble", label: "Meublé", icon: FaCouch },
 ];
 
-// === 20 DONNÉES FICTIVES 100% BÉNIN ===
 const FAKE_PROPERTIES = [
-  { id: 1, title: "Villa de Luxe Fidjrossè", price: 95000, bedrooms: 5, location: "Fidjrossè", rating: 4.9, image: "https://images.unsplash.com/photo-1613490493576-7fbecc31db04?w=800", equipments: ["wifi","clim","piscine","parking","securite","jardin","meuble","sport"] },
+  { id: 1, title: "Villa de Luxe Fidjrossè", price: 500000, bedrooms: 5, location: "Fidjrossè", rating: 4.9, image: "https://images.unsplash.com/photo-1613490493576-7fbecc31db04?w=800", equipments: ["wifi","clim","piscine","parking","securite","jardin","meuble","sport"] },
   { id: 2, title: "Appart Cosy Akpakpa", price: 42000, bedrooms: 2, location: "Akpakpa", rating: 4.6, image: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800", equipments: ["wifi","tv","cuisine","eau","clim"] },
   { id: 3, title: "Studio Moderne Cadjèhoun", price: 35000, bedrooms: 1, location: "Cadjèhoun", rating: 4.5, image: "https://images.unsplash.com/photo-1502672260266-9d1ccddfe4d8?w=800", equipments: ["wifi","clim","parking","tv"] },
   { id: 4, title: "Maison Familiale Gbegamey", price: 135000, bedrooms: 6, location: "Gbegamey", rating: 5.0, image: "https://images.unsplash.com/photo-1576941089067-2de3c901608a?w=800", equipments: ["wifi","piscine","jardin","sport","securite","cuisine","meuble"] },
@@ -125,42 +78,52 @@ const FAKE_PROPERTIES = [
   { id: 17, title: "Villa Djeffa", price: 98000, bedrooms: 4, location: "Djeffa", rating: 4.7, image: "https://images.unsplash.com/photo-1600563440095-5d0308f1c29b?w=800", equipments: ["wifi","piscine","jardin","parking"] },
   { id: 18, title: "Studio Étoile", price: 28000, bedrooms: 1, location: "Étoile", rating: 4.3, image: "https://images.unsplash.com/photo-1519643381401-22c44e6055b8?w=800", equipments: ["wifi","tv"] },
   { id: 19, title: "Duplex Missebo", price: 78000, bedrooms: 3, location: "Missebo", rating: 4.6, image: "https://images.unsplash.com/photo-1600563438938-a9a27216b4dc?w=800", equipments: ["wifi","clim","cuisine","securite"] },
-  { id: 20, title: "Palais Moderne Zone Résidentielle", price: 280000, bedrooms: 8, location: "Zone 4", rating: 5.0, image: "https://images.unsplash.com/photo-1600607687644-1f8b88f1f3a6?w=800", equipments: ["wifi","piscine","sport","jardin","securite","meuble","cuisine","tv"] },
+  { id: 20, title: "Palais Zone Résidentielle", price: 280000, bedrooms: 8, location: "Zone 4", rating: 5.0, image: "https://images.unsplash.com/photo-1600607687644-1f8b88f1f3a6?w=800", equipments: ["wifi","piscine","sport","jardin","securite","meuble","cuisine","tv"] },
 ];
+// ==========================================================
+
+const EquipIcon = ({ id }) => {
+  const eq = EQUIPMENTS.find(e => e.id === id);
+  const Icon = eq?.icon || FaWifi;
+  return <Icon className="text-blue-600" />;
+};
 
 export default function HeroSection() {
-  const [formData, setFormData] = useState({
-    location: "",
-    type: "",
-    duration: "",
-    budget: "",
-    bedrooms: "",
-    equipments: [],
+  const { formData, setFormData, handleChange } = useForm({
+    location: "", type: "", duration: "", budget: "", bedrooms: "", equipments: []
   });
 
-  const [showEquipments, setShowEquipments] = useState(false);
+  const { detecting, detectLocation } = useGeolocation((coords) => {
+    setFormData(prev => ({ ...prev, location: coords }));
+  });
+
+  const {
+    show: showEquipments,
+    selected: selectedEquipments,
+    ref: modalRef,
+    open: openModal,
+    close: closeModal,
+    toggle: toggleEquipment,
+    reset: resetEquipments,
+    apply: applyEquipments
+  } = useEquipmentsModal(formData.equipments);
+
   const [showResults, setShowResults] = useState(false);
   const [filtered, setFiltered] = useState([]);
-  const [detecting, setDetecting] = useState(false);
-  const [selectedEquipments, setSelectedEquipments] = useState([]);
-  const modalRef = useRef(null);
 
-  // === FILTRE INTELLIGENT ===
   const doSearch = () => {
     let results = [...FAKE_PROPERTIES];
 
-    if (formData.location) {
-      results = results.filter(p => p.location.toLowerCase().includes(formData.location.toLowerCase()));
-    }
+    if (formData.location) results = results.filter(p => p.location.toLowerCase().includes(formData.location.toLowerCase()));
     if (formData.bedrooms) {
-      const minBed = formData.bedrooms === "5+" ? 5 : parseInt(formData.bedrooms);
-      results = results.filter(p => p.bedrooms >= minBed);
+      const min = formData.bedrooms === "5+" ? 5 : parseInt(formData.bedrooms);
+      results = results.filter(p => p.bedrooms >= min);
     }
     if (formData.budget) {
       const max = formData.budget === "500000+" ? Infinity : parseInt(formData.budget.split("-")[1]);
       results = results.filter(p => p.price <= max);
     }
-    if (formData.equipments.length > 0) {
+    if (formData.equipments.length) {
       results = results.filter(p => formData.equipments.every(eq => p.equipments.includes(eq)));
     }
 
@@ -168,58 +131,8 @@ export default function HeroSection() {
     setShowResults(true);
   };
 
-  // === HANDLERS ===
-  const handleChange = useCallback((e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  }, []);
-
-  const handleDetectLocation = useCallback(() => {
-    if (!navigator.geolocation) return alert("Géolocalisation non supportée");
-    setDetecting(true);
-    navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        const { latitude, longitude } = pos.coords;
-        setFormData(prev => ({ ...prev, location: `${latitude.toFixed(4)}, ${longitude.toFixed(4)}` }));
-        setDetecting(false);
-        alert(`Position détectée !\nLat: ${latitude.toFixed(4)} | Lng: ${longitude.toFixed(4)}`);
-      },
-      () => { setDetecting(false); alert("Permission refusée"); },
-      { timeout: 10000 }
-    );
-  }, []);
-
-  // === MODALE ===
-  const openModal = () => { setSelectedEquipments(formData.equipments); setShowEquipments(true); };
-  const closeModal = () => setShowEquipments(false);
-  const resetEquipments = () => setSelectedEquipments([]);
-  const applyEquipments = () => { setFormData(prev => ({ ...prev, equipments: selectedEquipments })); closeModal(); };
-  const toggleEquipment = (id) => setSelectedEquipments(prev => prev.includes(id) ? prev.filter(e => e !== id) : [...prev, id]);
-
-  // Fermer modale
-  useEffect(() => {
-    const esc = e => e.key === "Escape" && closeModal();
-    const outside = e => modalRef.current && !modalRef.current.contains(e.target) && closeModal();
-    if (showEquipments) {
-      document.addEventListener("keydown", esc);
-      document.addEventListener("mousedown", outside);
-    }
-    return () => {
-      document.removeEventListener("keydown", esc);
-      document.removeEventListener("mousedown", outside);
-    };
-  }, [showEquipments]);
-
   const equipLabel = formData.equipments.length ? `Équipements (${formData.equipments.length})` : "Équipements";
 
-  // === ICÔNE ÉQUIPEMENT ===
-  const EquipIcon = ({ id }) => {
-    const eq = EQUIPMENTS.find(e => e.id === id);
-    const Icon = eq?.icon || FaWifi;
-    return <Icon className="text-blue-600" />;
-  };
-
-  // === RENDER INPUT ===
   const renderInput = ({ name, placeholder, icon: Icon, type, options, hasDetect }) => (
     <div className="relative">
       <Icon className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 z-10 pointer-events-none" />
@@ -233,7 +146,7 @@ export default function HeroSection() {
           className="w-full pl-10 pr-12 py-3 text-gray-800 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
       )}
       {hasDetect && (
-        <button type="button" onClick={handleDetectLocation} disabled={detecting}
+        <button type="button" onClick={detectLocation} disabled={detecting}
           className="absolute right-2 top-1/2 -translate-y-1/2 text-blue-600 hover:text-blue-700 p-2 disabled:opacity-50">
           <FaCrosshairs className={`text-lg ${detecting ? "animate-pulse" : ""}`} />
         </button>
@@ -243,12 +156,10 @@ export default function HeroSection() {
 
   return (
     <>
-      {/* === PAGE PRINCIPALE OU RÉSULTATS === */}
       {!showResults ? (
-        /* === HERO SECTION === */
         <section className="relative text-white overflow-hidden bg-black">
           <div className="absolute inset-0 z-0">
-            <img src={heroBg} alt="Logements au Bénin" className="w-full h-full object-cover opacity-30" loading="lazy" />
+            <img src={heroBg} alt="Bénin" className="w-full h-full object-cover opacity-30" loading="lazy" />
             <div className="absolute inset-0 bg-gradient-to-b from-black/60 to-black/30" />
           </div>
 
@@ -269,9 +180,9 @@ export default function HeroSection() {
                     ))}
 
                     <div className="relative">
-                      <FaSlidersH className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 z-10 pointer-events-none" />
+                      <FaSlidersH className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 z-10" />
                       <button type="button" onClick={openModal}
-                        className="w-full pl-10 pr-4 py-3 text-left text-gray-800 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white hover:bg-gray-50 transition flex items-center justify-between">
+                        className="w-full pl-10 pr-4 py-3 text-left text-gray-800 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white hover:bg-gray-50 transition flex justify-between items-center">
                         <span>{equipLabel}</span>
                         <span className="text-gray-500">▼</span>
                       </button>
@@ -279,7 +190,7 @@ export default function HeroSection() {
                   </div>
 
                   <button type="submit"
-                    className="w-full md:w-auto px-10 py-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 active:scale-95 transition font-bold text-lg flex items-center justify-center space-x-3 mx-auto shadow-lg">
+                    className="w-full md:w-auto px-10 py-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-bold text-lg flex items-center justify-center space-x-3 mx-auto shadow-lg">
                     <FaSearch className="text-xl" />
                     <span>Rechercher</span>
                   </button>
@@ -289,58 +200,40 @@ export default function HeroSection() {
           </div>
         </section>
       ) : (
-        /* === PAGE RÉSULTATS === */
         <section className="min-h-screen bg-gray-50 py-12">
           <div className="container mx-auto px-4">
             <button onClick={() => setShowResults(false)}
               className="mb-6 flex items-center text-blue-600 hover:text-blue-800 font-medium">
-              <FaArrowLeft className="mr-2" /> Retour à la recherche
+              <FaArrowLeft className="mr-2" /> Retour
             </button>
-
-            <h1 className="text-4xl font-bold text-gray-800 mb-2">
-              {filtered.length} logement{filtered.length > 1 ? "s" : ""} trouvé{filtered.length > 1 ? "s" : ""}
-            </h1>
-            <p className="text-gray-600 mb-8">
-              à {formData.location || "Cotonou et environs"}
-            </p>
+            <h1 className="text-4xl font-bold mb-2">{filtered.length} logement{filtered.length > 1 ? "s" : ""}</h1>
+            <p className="text-gray-600 mb-8">à {formData.location || "Cotonou et environs"}</p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-              {filtered.map(property => (
-                <div key={property.id}
-                  className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition transform hover:-translate-y-1">
+              {filtered.map(p => (
+                <div key={p.id} className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition transform hover:-translate-y-1">
                   <div className="relative">
-                    <img src={property.image} alt={property.title} className="w-full h-56 object-cover" />
+                    <img src={p.image} alt={p.title} className="w-full h-56 object-cover" />
                     <div className="absolute top-3 right-3 bg-white px-3 py-1 rounded-full flex items-center shadow">
                       <FaStar className="text-yellow-500 mr-1" />
-                      <span className="font-bold text-sm">{property.rating}</span>
+                      <span className="font-bold text-sm">{p.rating}</span>
                     </div>
                   </div>
-
                   <div className="p-5">
-                    <h3 className="font-bold text-lg text-gray-800">{property.title}</h3>
+                    <h3 className="font-bold text-lg text-gray-800">{p.title}</h3>
                     <p className="text-sm text-gray-500 flex items-center mt-1">
-                      <FaMapMarkerAlt className="mr-1" /> {property.location}
+                      <FaMapMarkerAlt className="mr-1" /> {p.location}
                     </p>
-
                     <div className="flex items-center space-x-2 mt-3 text-sm text-gray-600">
-                      <FaBed />
-                      <span>{property.bedrooms} chambre{property.bedrooms > 1 ? "s" : ""}</span>
+                      <FaBed /> <span>{p.bedrooms} chambre{p.bedrooms > 1 ? "s" : ""}</span>
                     </div>
-
                     <div className="flex flex-wrap gap-2 mt-3">
-                      {property.equipments.slice(0, 5).map(eq => (
-                        <EquipIcon key={eq} id={eq} />
-                      ))}
-                      {property.equipments.length > 5 && (
-                        <span className="text-xs text-gray-500">+{property.equipments.length - 5}</span>
-                      )}
+                      {p.equipments.slice(0, 5).map(eq => <EquipIcon key={eq} id={eq} />)}
+                      {p.equipments.length > 5 && <span className="text-xs text-gray-500">+{p.equipments.length - 5}</span>}
                     </div>
-
                     <div className="mt-5 flex justify-between items-end">
                       <div>
-                        <span className="text-2xl font-bold text-blue-600">
-                          {property.price.toLocaleString()} FCFA
-                        </span>
+                        <span className="text-2xl font-bold text-blue-600">{p.price.toLocaleString()} FCFA</span>
                         <span className="text-sm text-gray-500">/mois</span>
                       </div>
                       <button className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition font-medium">
@@ -355,17 +248,14 @@ export default function HeroSection() {
         </section>
       )}
 
-      {/* === MODALE ÉQUIPEMENTS === */}
+      {/* MODALE ÉQUIPEMENTS */}
       {showEquipments && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
           <div ref={modalRef} className="bg-white rounded-2xl shadow-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto">
-            <div className="flex items-center justify-between p-6 border-b">
+            <div className="flex justify-between items-center p-6 border-b">
               <h2 className="text-2xl font-bold text-gray-800">Sélectionner les équipements</h2>
-              <button onClick={closeModal} className="text-gray-500 hover:text-gray-700">
-                <FaTimes className="text-2xl" />
-              </button>
+              <button onClick={closeModal}><FaTimes className="text-2xl text-gray-500" /></button>
             </div>
-
             <div className="p-6">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 {EQUIPMENTS.map(({ id, label, icon: Icon }) => (
@@ -378,14 +268,12 @@ export default function HeroSection() {
                 ))}
               </div>
             </div>
-
-            <div className="flex justify-end space-x-4 p-6 border-t bg-gray-50 rounded-b-2xl">
-              <button onClick={resetEquipments}
-                className="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition font-medium">
+            <div className="flex justify-end space-x-4 p-6 bg-gray-50 border-t">
+              <button onClick={resetEquipments} className="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition">
                 Réinitialiser
               </button>
-              <button onClick={applyEquipments}
-                className="px-8 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-medium shadow-md">
+              <button onClick={() => applyEquipments(eq => setFormData(prev => ({ ...prev, equipments: eq })))}
+                className="px-8 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition shadow">
                 Appliquer
               </button>
             </div>
