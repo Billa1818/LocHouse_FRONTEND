@@ -25,10 +25,10 @@ function Header() {
         <div className="flex items-center justify-between py-4">
           {/* Logo */}
           <div className="flex items-center">
-            <a href="/" className="flex items-center space-x-2">
+            <Link to="/" className="flex items-center space-x-2">
               {/* Placeholder pour le logo SVG */}
               <img src={logo} alt="LocHouse" className="h-12" />
-            </a>
+            </Link>
           </div>
 
           {/* Navigation Desktop */}
@@ -53,21 +53,6 @@ function Header() {
             >
               <FaBuilding size={18} />
               <span>Propriétaires</span>
-            </Link>
-            <Link
-              to="/contact"
-              className="flex items-center space-x-2 text-gray-700 hover:text-blue-600 transition"
-            >
-              <FaEnvelope size={18} />
-              <span>Contact</span>
-            </Link>
-
-            {/**Essai */}
-            <Link
-              to="/details"
-              className="flex items-center space-x-2 text-gray-700 hover:text-blue-600 transition py-2"
-            >
-              <span>Details</span>
             </Link>
           </nav>
 
@@ -124,13 +109,6 @@ function Header() {
                 <FaBuilding size={18} />
                 <span>Propriétaires</span>
               </a>
-              <Link
-                href="/contact"
-                className="flex items-center space-x-2 text-gray-700 hover:text-blue-600 transition py-2"
-              >
-                <FaEnvelope size={18} />
-                <span>Contact</span>
-              </Link>
 
               <div className="flex flex-col space-y-2 pt-2">
                 <a

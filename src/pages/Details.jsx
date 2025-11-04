@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // src/pages/Details.jsx
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
@@ -21,6 +22,10 @@ import {
   FaHeart, 
   FaTint 
 } from "react-icons/fa";
+=======
+import React, { useState } from "react";
+import { BiHeart } from "react-icons/bi";
+>>>>>>> b898d8e (Lochouse)
 
 const Details = () => {
   const { id } = useParams();
@@ -108,7 +113,13 @@ const Details = () => {
                 className="w-full h-[400px] lg:h-[500px] object-cover"
               />
               <button className="absolute top-4 right-4 bg-white text-gray-700 w-12 h-12 rounded-full flex items-center justify-center hover:text-red-500 transition shadow-lg">
+<<<<<<< HEAD
                 <FaHeart className="text-xl" />
+=======
+                <div className="far fa-heart text-xl">
+                  <BiHeart />
+                </div>
+>>>>>>> b898d8e (Lochouse)
               </button>
             </div>
 

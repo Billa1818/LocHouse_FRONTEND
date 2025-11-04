@@ -138,7 +138,7 @@ function Footer() {
               </li>
               <li className="flex items-center space-x-2">
                 <FaPhone className="text-blue-500" />
-                <span>+229 XX XX XX XX</span>
+                <span>+229 01 XX XX XX XX</span>
               </li>
             </ul>
           </div>
