@@ -40,27 +40,35 @@ function Header() {
               <FaHome size={18} />
               <span>Accueil</span>
             </Link>
-            <a
-              href="/recherche"
+            <Link
+              to="/recherche"
               className="flex items-center space-x-2 text-gray-700 hover:text-blue-600 transition"
             >
               <FaSearch size={18} />
               <span>Rechercher</span>
-            </a>
-            <a
-              href="/proprietaires"
+            </Link>
+            <Link
+              to="/proprietaires"
               className="flex items-center space-x-2 text-gray-700 hover:text-blue-600 transition"
             >
               <FaBuilding size={18} />
               <span>Propriétaires</span>
-            </a>
-            <a
-              href="/contact"
+            </Link>
+            <Link
+              to="/contact"
               className="flex items-center space-x-2 text-gray-700 hover:text-blue-600 transition"
             >
               <FaEnvelope size={18} />
               <span>Contact</span>
-            </a>
+            </Link>
+
+            {/**Essai */}
+            <Link
+              to="/details"
+              className="flex items-center space-x-2 text-gray-700 hover:text-blue-600 transition py-2"
+            >
+              <span>Details</span>
+            </Link>
           </nav>
 
           {/* Actions */}
@@ -116,13 +124,14 @@ function Header() {
                 <FaBuilding size={18} />
                 <span>Propriétaires</span>
               </a>
-              <a
+              <Link
                 href="/contact"
                 className="flex items-center space-x-2 text-gray-700 hover:text-blue-600 transition py-2"
               >
                 <FaEnvelope size={18} />
                 <span>Contact</span>
-              </a>
+              </Link>
+
               <div className="flex flex-col space-y-2 pt-2">
                 <a
                   href="/connexion"
