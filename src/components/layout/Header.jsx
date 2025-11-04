@@ -41,7 +41,7 @@ function Header() {
               <span>Accueil</span>
             </Link>
             <Link
-              to="/recherche"
+              to="/rechercher"
               className="flex items-center space-x-2 text-gray-700 hover:text-blue-600 transition"
             >
               <FaSearch size={18} />

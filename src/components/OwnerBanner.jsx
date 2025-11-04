@@ -2,7 +2,7 @@ import React from "react";
 
 export default function OwnerBanner() {
   return (
-    <div className="bg-gradient-to-r from-blue-600 to-blue-800 py-16">
+    <div className="bg-gradient-to-r from-blue-400 to-blue-800 py-16">
       <div className="max-w-4xl mx-auto text-center px-6">
         <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
           Vous êtes propriétaire ?
