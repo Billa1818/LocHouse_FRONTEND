@@ -162,17 +162,7 @@ export default function Rechercher() {
             </>
           )}
 
-          {/* BOUTON "VOIR TOUS LES AVIS" EN BAS */}
-          {filteredListings.length > 0 && totalReviews > 0 && (
-            <div className="mt-16 text-center">
-              <Link
-                to="/avis"
-                className="inline-block w-full max-w-md mx-auto bg-white border-2 border-blue-600 text-blue-600 py-4 px-8 rounded-xl font-bold text-lg hover:bg-blue-50 transition shadow-md"
-              >
-                Voir tous les {totalReviews} avis
-              </Link>
-            </div>
-          )}
+          
         </div>
       </div>
     </div>

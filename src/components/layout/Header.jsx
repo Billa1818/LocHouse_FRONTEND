@@ -1,131 +1,170 @@
+// src/components/Header.jsx
 import React, { useState } from "react";
 import logo from "../../assets/lochouse-logo.svg";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import {
   FaHome,
   FaSearch,
   FaBuilding,
-  FaEnvelope,
   FaSignInAlt,
   FaUserPlus,
   FaBars,
   FaTimes,
 } from "react-icons/fa";
+import { Lock } from "lucide-react";
 
 function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const location = useLocation();
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
   };
 
+  // STYLE HOVER BLEU
+  const hoverLink = `
+    group relative flex items-center space-x-2
+    px-5 py-2.5 rounded-full font-medium
+    text-gray-700 hover:text-white
+    transition-all duration-300
+    before:absolute before:inset-0
+    before:bg-gradient-to-r before:from-blue-600 before:to-blue-700
+    before:rounded-full before:opacity-0
+    before:hover:opacity-100 before:transition-opacity
+  `;
+
+  const underline = `
+    absolute -bottom-1 left-0 w-0 h-0.5 bg-white
+    group-hover:w-full transition-all duration-300 opacity-0
+    group-hover:opacity-100
+  `;
+
+  const isActive = (path) => location.pathname === path;
+
   return (
     <header className="bg-white shadow-md sticky top-0 z-50">
       <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between py-4">
-          {/* Logo */}
-          <div className="flex items-center">
-            <Link to="/" className="flex items-center space-x-2">
-              {/* Placeholder pour le logo SVG */}
-              <img src={logo} alt="LocHouse" className="h-12" />
+        <div className="grid grid-cols-3 items-center py-4 gap-4">
+
+          {/* COLONNE 1 : LOGO + MENU MOBILE */}
+          <div className="flex items-center justify-start space-x-4">
+            {/* LOGO TOUJOURS VISIBLE */}
+            <Link to="/" className="flex items-center">
+              <img 
+                src={logo} 
+                alt="LocHouse" 
+                className="h-10 md:h-12 w-auto object-contain transition-transform hover:scale-105"
+              />
             </Link>
+
+            {/* HAMBURGER (mobile only) */}
+            <button
+              onClick={toggleMobileMenu}
+              className="md:hidden text-gray-700 text-2xl"
+              aria-label="Toggle menu"
+            >
+              {mobileMenuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
+            </button>
           </div>
 
-          {/* Navigation Desktop */}
-          <nav className="hidden md:flex items-center space-x-6">
+          {/* COLONNE 2 : LIENS PRINCIPAUX (CENTRÉS) */}
+          <nav className="hidden md:flex justify-center items-center space-x-4">
             <Link
               to="/"
-              className="flex items-center space-x-2 text-gray-700 hover:text-blue-600 transition"
+              className={`${hoverLink} ${isActive("/") ? "text-blue-700 font-bold" : ""}`}
             >
-              <FaHome size={18} />
-              <span>Accueil</span>
+              <FaHome size={18} className="text-gray-600 group-hover:text-white transition" />
+              <span className="relative z-10">
+                Accueil
+                <span className={underline}></span>
+              </span>
             </Link>
+
             <Link
               to="/rechercher"
-              className="flex items-center space-x-2 text-gray-700 hover:text-blue-600 transition"
+              className={`${hoverLink} ${isActive("/rechercher") ? "text-blue-700 font-bold" : ""}`}
             >
-              <FaSearch size={18} />
-              <span>Rechercher</span>
+              <FaSearch size={18} className="text-gray-600 group-hover:text-white transition" />
+              <span className="relative z-10">
+                Rechercher
+                <span className={underline}></span>
+              </span>
             </Link>
+
             <Link
               to="/proprietaires"
-              className="flex items-center space-x-2 text-gray-700 hover:text-blue-600 transition"
+              className={`${hoverLink} ${isActive("/proprietaires") ? "text-blue-700 font-bold" : ""}`}
             >
-              <FaBuilding size={18} />
-              <span>Propriétaires</span>
+              <FaBuilding size={18} className="text-gray-600 group-hover:text-white transition" />
+              <span className="relative z-10">
+                Propriétaires
+                <span className={underline}></span>
+              </span>
+            </Link>
+
+            <Link
+              to="/paiement"
+              className={`${hoverLink} ${isActive("/paiement") ? "text-blue-700 font-bold" : ""}`}
+            >
+              <Lock size={18} className="text-gray-600 group-hover:text-white transition" />
+              <span className="relative z-10">
+                Payer
+                <span className={underline}></span>
+              </span>
             </Link>
           </nav>
 
-          {/* Actions */}
-          <div className="hidden md:flex items-center space-x-3">
+          {/* COLONNE 3 : CONNEXION / INSCRIPTION */}
+          <div className="hidden md:flex justify-end items-center space-x-3">
             <Link
               to="/login"
-              className="flex items-center space-x-2 px-4 py-2 text-blue-600 border border-blue-600 rounded-lg hover:bg-blue-50 transition"
+              className={`${hoverLink} ${isActive("/login") ? "text-blue-700 font-bold" : ""}`}
             >
-              <FaSignInAlt size={18} />
-              <span>Connexion</span>
+              <FaSignInAlt size={18} className="text-gray-600 group-hover:text-white transition" />
+              <span className="relative z-10">
+                Connexion
+                <span className={underline}></span>
+              </span>
             </Link>
+
             <Link
               to="/signin"
-              className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+              className={`${hoverLink} ${isActive("/signin") ? "text-blue-700 font-bold" : ""}`}
             >
-              <FaUserPlus size={18} />
-              <span>Inscription</span>
+              <FaUserPlus size={18} className="text-gray-600 group-hover:text-white transition" />
+              <span className="relative z-10">
+                Inscription
+                <span className={underline}></span>
+              </span>
             </Link>
           </div>
-
-          {/* Menu Mobile Button */}
-          <button
-            onClick={toggleMobileMenu}
-            className="md:hidden text-gray-700 text-2xl"
-            aria-label="Toggle menu"
-          >
-            {mobileMenuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
-          </button>
         </div>
 
-        {/* Navigation Mobile */}
+        {/* MENU MOBILE */}
         {mobileMenuOpen && (
-          <div className="md:hidden pb-4 border-t mt-2 pt-4">
+          <div className="md:hidden pb-6 border-t mt-2 pt-4">
             <nav className="flex flex-col space-y-3">
-              <a
-                href="/"
-                className="flex items-center space-x-2 text-gray-700 hover:text-blue-600 transition py-2"
-              >
-                <FaHome size={18} />
-                <span>Accueil</span>
-              </a>
-              <a
-                href="/recherche"
-                className="flex items-center space-x-2 text-gray-700 hover:text-blue-600 transition py-2"
-              >
-                <FaSearch size={18} />
-                <span>Rechercher</span>
-              </a>
-              <a
-                href="/proprietaires"
-                className="flex items-center space-x-2 text-gray-700 hover:text-blue-600 transition py-2"
-              >
-                <FaBuilding size={18} />
-                <span>Propriétaires</span>
-              </a>
-
-              <div className="flex flex-col space-y-2 pt-2">
-                <a
-                  href="/connexion"
-                  className="flex items-center justify-center space-x-2 px-4 py-2 text-center text-blue-600 border border-blue-600 rounded-lg hover:bg-blue-50 transition"
+              {[
+                { to: "/", icon: FaHome, label: "Accueil" },
+                { to: "/rechercher", icon: FaSearch, label: "Rechercher" },
+                { to: "/proprietaires", icon: FaBuilding, label: "Propriétaires" },
+                { to: "/paiement", icon: Lock, label: "Payer" },
+                { to: "/login", icon: FaSignInAlt, label: "Connexion" },
+                { to: "/signin", icon: FaUserPlus, label: "Inscription" },
+              ].map(({ to, icon: Icon, label }) => (
+                <Link
+                  key={to}
+                  to={to}
+                  onClick={toggleMobileMenu}
+                  className={`${hoverLink} justify-center ${isActive(to) ? "text-blue-700 font-bold" : ""}`}
                 >
-                  <FaSignInAlt size={18} />
-                  <span>Connexion</span>
-                </a>
-                <a
-                  href="/inscription"
-                  className="flex items-center justify-center space-x-2 px-4 py-2 text-center bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
-                >
-                  <FaUserPlus size={18} />
-                  <span>Inscription</span>
-                </a>
-              </div>
+                  <Icon size={18} className="text-gray-600 group-hover:text-white transition" />
+                  <span className="relative z-10">
+                    {label}
+                    <span className={underline}></span>
+                  </span>
+                </Link>
+              ))}
             </nav>
           </div>
         )}
