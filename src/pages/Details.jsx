@@ -13,7 +13,6 @@ import {
   FaCouch,
   FaHeart,
 } from "react-icons/fa";
-
 import {
   FaWifi,
   FaSnowflake,
