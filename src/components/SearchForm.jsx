@@ -3,9 +3,9 @@ import { MdLocationOn, MdSearch, MdFilterList } from "react-icons/md";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const types = ["Tous", "Résidentiel", "Touristique", "Maison"];
-const budgets = ["Tous", "Moins de 50k", "50k - 100k", "100k - 200k", "Plus de 200k"];
-const rooms = ["Tous", "1", "2", "3", "4+"];
+const types = ["Types", "Résidentiel", "Touristique", "Maison"];
+const budgets = ["Budgets", "Moins de 50k", "50k - 100k", "100k - 200k", "Plus de 200k"];
+const rooms = ["Rooms", "1", "2", "3", "4+"];
 
 export default function SearchForm({ defaultValues = {}, onSearch }) {
   const [location, setLocation] = useState(defaultValues.location || "");
