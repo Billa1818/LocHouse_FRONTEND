@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   Mail,
   Key,
@@ -488,12 +489,12 @@ function Login() {
 
         <p className="text-gray-600 text-sm mt-6 text-center">
           Pas encore de compte ?{" "}
-          <a
-            href="#"
+          <Link
+            to="/signin"
             className="text-indigo-600 font-bold hover:text-indigo-700 hover:underline transition-colors"
           >
             S'inscrire gratuitement
-          </a>
+          </Link>
         </p>
       </div>
 

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import {
   Mail,
   Key,
@@ -475,12 +476,12 @@ const App = () => {
           <div className="mt-8 text-center border-t-2 border-gray-100 pt-6">
             <p className="text-gray-600">
               Vous avez déjà un compte ?{" "}
-              <a
-                href="/connexion"
+              <Link
+                to="/login"
                 className="text-blue-600 font-bold hover:underline hover:text-blue-700 transition"
               >
                 Connectez-vous ici →
-              </a>
+              </Link>
             </p>
           </div>
         </div>
