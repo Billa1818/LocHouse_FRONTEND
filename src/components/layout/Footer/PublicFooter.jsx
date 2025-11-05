@@ -1,7 +1,7 @@
+// src/components/layout/Footer/PublicFooter.jsx
 import React from "react";
-import logo from "../../assets/lochouse-logo.svg";
+import logo from "../../../assets/lochouse-logo.svg"; // Assure-toi que le chemin est correct
 import {
-  FaHome,
   FaFacebookF,
   FaTwitter,
   FaInstagram,
@@ -11,8 +11,9 @@ import {
   FaPhone,
   FaHeart,
 } from "react-icons/fa";
+import { Link } from "react-router-dom"; // Importe Link pour la navigation
 
-function Footer() {
+function PublicFooter() {
   return (
     <footer className="bg-gray-900 text-gray-300">
       <div className="container mx-auto px-4 py-12">
@@ -20,7 +21,6 @@ function Footer() {
           {/* À propos */}
           <div>
             <div className="flex items-center space-x-2 mb-4">
-              {/* Placeholder pour le logo SVG */}
               <img src={logo} alt="LocHouse" className="h-8" />
             </div>
             <p className="text-sm text-gray-400">
@@ -29,28 +29,36 @@ function Footer() {
             </p>
             <div className="flex space-x-4 mt-4">
               <a
-                href="#"
+                href="https://facebook.com" // Remplacez par les vrais liens
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-gray-400 hover:text-blue-500 transition"
                 aria-label="Facebook"
               >
                 <FaFacebookF className="text-xl" />
               </a>
               <a
-                href="#"
+                href="https://twitter.com" // Remplacez par les vrais liens
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-gray-400 hover:text-blue-500 transition"
                 aria-label="Twitter"
               >
                 <FaTwitter className="text-xl" />
               </a>
               <a
-                href="#"
+                href="https://instagram.com" // Remplacez par les vrais liens
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-gray-400 hover:text-blue-500 transition"
                 aria-label="Instagram"
               >
                 <FaInstagram className="text-xl" />
               </a>
               <a
-                href="#"
+                href="https://linkedin.com" // Remplacez par les vrais liens
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-gray-400 hover:text-blue-500 transition"
                 aria-label="LinkedIn"
               >
@@ -64,27 +72,30 @@ function Footer() {
             <h3 className="text-white font-semibold mb-4">Liens Rapides</h3>
             <ul className="space-y-2 text-sm">
               <li>
-                <a href="/recherche" className="hover:text-blue-500 transition">
+                <Link
+                  to="/recherche"
+                  className="hover:text-blue-500 transition"
+                >
                   Rechercher un logement
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  href="/proprietaires"
+                <Link
+                  to="/proprietaires"
                   className="hover:text-blue-500 transition"
                 >
                   Devenir propriétaire
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/tarifs" className="hover:text-blue-500 transition">
+                <Link to="/tarifs" className="hover:text-blue-500 transition">
                   Tarifs d'abonnement
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/faq" className="hover:text-blue-500 transition">
+                <Link to="/faq" className="hover:text-blue-500 transition">
                   FAQ
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -94,27 +105,27 @@ function Footer() {
             <h3 className="text-white font-semibold mb-4">Support</h3>
             <ul className="space-y-2 text-sm">
               <li>
-                <a href="/contact" className="hover:text-blue-500 transition">
+                <Link to="/contact" className="hover:text-blue-500 transition">
                   Nous contacter
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/aide" className="hover:text-blue-500 transition">
+                <Link to="/aide" className="hover:text-blue-500 transition">
                   Centre d'aide
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/cgu" className="hover:text-blue-500 transition">
+                <Link to="/cgu" className="hover:text-blue-500 transition">
                   CGU
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  href="/confidentialite"
+                <Link
+                  to="/confidentialite"
                   className="hover:text-blue-500 transition"
                 >
                   Confidentialité
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -158,4 +169,4 @@ function Footer() {
   );
 }
 
-export default Footer;
+export default PublicFooter;

@@ -1,7 +1,7 @@
 // src/components/Header.jsx
 import React, { useState } from "react";
-import logo from "../../assets/lochouse-logo.svg";
 import { Link, useLocation } from "react-router-dom";
+import logo from "../../../assets/lochouse-logo.svg"; // Assure-toi que le chemin est correct
 import {
   FaHome,
   FaSearch,
@@ -13,7 +13,7 @@ import {
 } from "react-icons/fa";
 import { Lock } from "lucide-react";
 
-function Header() {
+function PublicHeader() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
 
@@ -48,13 +48,13 @@ function Header() {
 
           {/* COLONNE 1 : LOGO + MENU MOBILE */}
           <div className="flex items-center justify-start space-x-4">
-            {/* LOGO TOUJOURS VISIBLE */}
             <Link to="/" className="flex items-center">
               <img 
                 src={logo} 
                 alt="LocHouse" 
                 className="h-10 md:h-12 w-auto object-contain transition-transform hover:scale-105"
               />
+
             </Link>
 
             {/* HAMBURGER (mobile only) */}
@@ -165,6 +165,45 @@ function Header() {
                   </span>
                 </Link>
               ))}
+
+              <Link
+                to="/"
+                className="flex items-center space-x-2 text-gray-700 hover:text-blue-600 transition py-2"
+              >
+                <FaHome size={18} />
+                <span>Accueil</span>
+              </Link>
+              <Link
+                to="/rechercher"
+                className="flex items-center space-x-2 text-gray-700 hover:text-blue-600 transition py-2"
+              >
+                <FaSearch size={18} />
+                <span>Rechercher</span>
+              </Link>
+              <Link
+                to="/proprietaires"
+                className="flex items-center space-x-2 text-gray-700 hover:text-blue-600 transition py-2"
+              >
+                <FaBuilding size={18} />
+                <span>Propriétaires</span>
+              </Link>
+
+              <div className="flex flex-col space-y-2 pt-2">
+                <Link
+                  to="/login"
+                  className="flex items-center justify-center space-x-2 px-4 py-2 text-center text-blue-600 border border-blue-600 rounded-lg hover:bg-blue-50 transition"
+                >
+                  <FaSignInAlt size={18} />
+                  <span>Connexion</span>
+                </Link>
+                <Link
+                  to="/signin"
+                  className="flex items-center justify-center space-x-2 px-4 py-2 text-center bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+                >
+                  <FaUserPlus size={18} />
+                  <span>Inscription</span>
+                </Link>
+              </div>
             </nav>
           </div>
         )}
@@ -173,4 +212,4 @@ function Header() {
   );
 }
 
-export default Header;
+export default PublicHeader

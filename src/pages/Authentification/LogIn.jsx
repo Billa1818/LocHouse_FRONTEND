@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { useAuth } from "../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 import {
   Mail,
   Key,
@@ -25,6 +27,8 @@ function Login() {
   const [resendTimer, setResendTimer] = useState(0);
   const [attempts, setAttempts] = useState(0);
   const [isInitializing, setIsInitializing] = useState(true);
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
   // Simulation d'initialisation
   useEffect(() => {
@@ -151,6 +155,18 @@ function Login() {
 
     setIsLoading(false);
     setStep("success");
+
+    // 🔥 Simulation de rôle (admin ou utilisateur)
+    const role = email === "admin@lochouse.bj" ? "admin" : "user";
+
+    // On connecte l'utilisateur via le contexte
+    login(email, role);
+
+    // Redirection selon le rôle
+    setTimeout(() => {
+      if (role === "admin") navigate("/admin");
+      else navigate("/");
+    }, 1500);
   };
 
   const handleResendCode = async () => {

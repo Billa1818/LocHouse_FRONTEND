@@ -9,12 +9,10 @@ function Home() {
   return (
     <div>
       <HeroSection />
-      <CategorySection/>
-<RecentListings/>
-<WhyChooseSection/>
-<OwnerBanner/>
-
-
+      <CategorySection />
+      <RecentListings />
+      <WhyChooseSection />
+      <OwnerBanner />
     </div>
   );
 }
