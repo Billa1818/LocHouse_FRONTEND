@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom"; // Assurez-vous que vous utilisez react-router-dom
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../../context/AuthContext";
 import {
   Shield,
   BarChart3,
@@ -16,6 +17,16 @@ import {
 function AdminHeader() {
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false); // Ajouté pour le menu mobile admin
+
+  const { logout } = useAuth(); // ← RÉCUPÉRATION DE LA FONCTION
+  const navigate = useNavigate();
+
+  // Fonction de déconnexion sécurisée
+  const handleLogout = () => {
+    logout(); // ← Nettoie user + localStorage + redirige vers /login
+    setUserDropdownOpen(false);
+    setMobileMenuOpen(false);
+  };
 
   return (
     <header className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 shadow-2xl sticky top-0 z-50">
@@ -129,13 +140,14 @@ function AdminHeader() {
                     <span>Paramètres</span>
                   </Link>
                   <div className="border-t my-2"></div>
-                  <Link
-                    to="/logout" // Chemin pour la déconnexion
-                    className="flex items-center space-x-3 px-4 py-2 text-red-600 hover:bg-red-50 transition"
+                  {/* ← DÉCONNEXION DANS LE MENU MOBILE */}
+                  <button
+                    onClick={handleLogout}
+                    className="w-full flex items-center space-x-3 px-4 py-2 text-red-500 hover:bg-gray-700 transition text-left"
                   >
                     <LogOut size={18} />
                     <span>Déconnexion</span>
-                  </Link>
+                  </button>
                 </div>
               )}
             </div>
