@@ -11,7 +11,9 @@ import AdminDashboard from "../pages/AdminDasboard";
 import UserManagement from "../components/admin/UserAdmin";
 import Verification from "../components/admin/Verification";
 import Announcements from "../components/admin/Annoncement";
-
+import  Profile from "../components/proprietaire/profile";
+import AddProperty from "../components/proprietaire/AddPropertyForm";
+import RevenusPage from "../components/proprietaire/RevenusPage";
 function AppRoute() {
   return (
     <>
@@ -20,9 +22,16 @@ function AppRoute() {
         <Route path="/" element={<Home />} />
         <Route path="/details/:id" element={<Details />} />
         <Route path="/rechercher" element={<Rechercher />} />
-        <Route path="/proprietaires" element={<ProprietairePage />} />
             <Route path="/paiement" element={<PaiementPage />} />
+          
+ {/* proprprietaire */}
 
+
+        <Route path="//proprietaire/home" element={<ProprietairePage />} />
+        <Route path="/proprietaire/profile" element={<Profile />} />
+        <Route path="/proprietaire/add-property" element={<AddProperty />} /> {/* AJOUTÉ ICI */}
+          <Route path="/proprietaire/revenus" element={<RevenusPage />} />
+ {/* connexion*/}
         <Route path="/signin" element={<SignIn />} />
         <Route path="/login" element={<Login />} />
         {/* Admin */}

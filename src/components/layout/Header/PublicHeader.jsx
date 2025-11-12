@@ -94,13 +94,6 @@ function PublicHeader() {
               </span>
             </Link>
 
-            <Link to="/proprietaires" className={`${hoverLink} ${isActive("/proprietaires") ? "text-blue-700 font-bold" : ""}`}>
-              <FaBuilding size={18} className="text-gray-600 group-hover:text-blue-500 transition" />
-              <span className="relative z-10">
-                Propriétaires
-                <span className={underline}></span>
-              </span>
-            </Link>
 
             <Link to="/paiement" className={`${hoverLink} ${isActive("/paiement") ? "text-blue-700 font-bold" : ""}`}>
               <Lock size={18} className="text-gray-600 group-hover:text-blue-500 transition" />
@@ -138,7 +131,7 @@ function PublicHeader() {
               {[
                 { to: "/", icon: FaHome, label: "Accueil" },
                 { to: "/rechercher", icon: FaSearch, label: "Rechercher" },
-                { to: "/proprietaires", icon: FaBuilding, label: "Propriétaires" },
+             
                 { to: "/paiement", icon: Lock, label: "Payer" },
               ].map(({ to, icon: Icon, label }) => (
                 <Link
